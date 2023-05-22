@@ -1,0 +1,528 @@
+stages:
+  - .pre
+  - quality_check
+  - build
+  - deploy
+  - Automated-test-cases
+
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
+code_quality:
+  stage: quality_check
+  tags:
+    #- docker_executor4
+    - docker_runner_new
+  artifacts:
+    paths: [gl-code-quality-report.json]
+  allow_failure: true
+  when: manual
+
+sonarqube-check-backend:
+  stage: quality_check
+  tags:
+    #- docker_executor4
+    - docker_runner_new
+  image: 
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+    - .sonar/cache
+  script:
+    - cd Backend
+    - sonar-scanner -X
+  allow_failure: true
+  only:
+    - main # or the name of your main branch
+
+sonarqube-check-frontend:
+  stage: quality_check
+  tags:
+    #- docker_executor4
+    - docker_runner_new
+  image: 
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+    - .sonar/cache
+  script:
+    - cd Frontend
+    - sonar-scanner -X
+  allow_failure: true
+  only:
+    - main # or the name of your main branch
+
+sonarqube-check-overall:
+  stage: quality_check
+  tags:
+    #- docker_executor4
+    - docker_runner_new
+  image: 
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+    - .sonar/cache
+  script:
+    - sonar-scanner -X
+  allow_failure: true
+  only:
+    - main # or the name of your main branch
+
+frontend-lint:
+  stage: .pre
+  tags:
+    - docker_executor4
+  image:
+    name: node:16
+  script:
+    - cd Frontend
+    - npm install
+    - npm run lint
+  only:
+    - main
+    - /^main*/
+    - development
+    - /^devop*/
+    - /^web*/
+    - /^frontend*/
+  allow_failure: true
+
+backend-lint:
+  stage: .pre
+  tags:
+    - docker_executor4
+  image:
+    name: node:16
+  script:
+    - cd Backend
+    - npm ci
+    - npm run lint
+  only:
+    - main
+    - /^main*/
+    - development
+    - /^devop*/
+    - /^backend*/
+  allow_failure: true
+
+
+frontend-package-lock-sync-check:
+  stage: .pre
+  tags:
+    - docker_runner_new 
+  image:
+    name: node:16
+  script:
+    - cd Frontend
+    - npm ci --dry-run
+  allow_failure: false
+  only:
+    - main
+    - /^main*/
+    - development
+    - /^devop*/
+    - /^web*/
+    - /^frontend*/
+
+backend-package-lock-sync-check:
+  stage: .pre
+  tags:
+    - docker_runner_new 
+  image:
+    name: node:16
+  script:
+    - cd Backend
+    - npm ci --dry-run
+  allow_failure: false
+  only:
+    - main
+    - /^main*/
+    - development
+    - /^devop*/
+    - /^web*/
+    - /^frontend*/
+
+
+# build-image-frontend:
+#   stage: build
+#   tags:
+#     - shell_runner4
+#   script:
+#     - pwd
+#     - cd Frontend
+#     #- bash "change_role.sh" 0999c05d-ea89-4a13-a189-015903d22f38
+#     - echo "patch number is $(git rev-list --count --merges HEAD )"
+#     - echo "patch number is $(git rev-list --count HEAD )"
+#     - bash "change_role.sh" 4264f3bc-f445-46a8-9c93-ecd6e5d7815c
+#     - bash change_base_url.sh 192.168.18.240:7000
+#     - docker build -t 192.168.18.240:5000/cryptax_frontend:testing .
+#     - docker image tag 192.168.18.240:5000/cryptax_frontend:testing 192.168.18.240:5000/cryptax_frontend:$CI_COMMIT_REF_SLUG.$(git rev-list --count --merges HEAD ^*)
+#     - docker image tag 192.168.18.240:5000/cryptax_frontend:testing 192.168.18.240:5000/cryptax_frontend:$CI_COMMIT_REF_SLUG
+#     - docker push 192.168.18.240:5000/cryptax_frontend:$CI_COMMIT_REF_SLUG.$(git rev-list --count --merges HEAD ^*)
+#     - docker push 192.168.18.240:5000/cryptax_frontend:testing
+#     - docker push 192.168.18.240:5000/cryptax_frontend:$CI_COMMIT_REF_SLUG
+#   only:
+#     - /^frontend*/
+#     - /^main*/
+#     - main
+
+
+
+# build-image-backend:
+#   stage: build
+#   tags:
+#     - shell_runner4
+#   script:
+#     - cd Backend
+#     - docker build -t 192.168.18.240:5000/cryptax_backend:testing .
+#     - docker image tag 192.168.18.240:5000/cryptax_backend:testing 192.168.18.240:5000/cryptax_backend:$CI_COMMIT_REF_SLUG.$(git rev-list --count --merges HEAD ^*)
+#     - docker image tag 192.168.18.240:5000/cryptax_backend:testing 192.168.18.240:5000/cryptax_backend:$CI_COMMIT_REF_SLUG
+#     - docker push 192.168.18.240:5000/cryptax_backend:testing
+#     - docker push 192.168.18.240:5000/cryptax_backend:$CI_COMMIT_REF_SLUG.$(git rev-list --count --merges HEAD ^*)
+#     - docker push 192.168.18.240:5000/cryptax_backend:$CI_COMMIT_REF_SLUG
+#   only:
+#     - /^backend*/
+#     - /^main*/
+#     - main
+
+
+deploy-QA:
+  stage: deploy
+  tags:
+    - shell_runner4
+  script:
+    - cd Backend
+    - docker build -t 192.168.18.240:5000/cryptax_backend:qa.$(git rev-list --count --merges HEAD ^*) .
+    - docker image tag 192.168.18.240:5000/cryptax_backend:testing 192.168.18.240:5000/cryptax_backend:qa
+    #
+    - cd ../Frontend
+    - bash "change_role.sh" 4264f3bc-f445-46a8-9c93-ecd6e5d7815c
+    - bash change_base_url.sh 192.168.18.240:7011
+    - docker build -t 192.168.18.240:5000/cryptax_frontend:qa .
+    - docker image tag 192.168.18.240:5000/cryptax_frontend:qa 192.168.18.240:5000/cryptax_frontend:qa.$(git rev-list --count --merges HEAD ^*)
+    #- 
+    - docker push 192.168.18.240:5000/cryptax_backend:qa.$(git rev-list --count --merges HEAD ^*)
+    - docker push 192.168.18.240:5000/cryptax_backend:qa
+    - docker push 192.168.18.240:5000/cryptax_frontend:qa
+    - docker push 192.168.18.240:5000/cryptax_frontend:qa.$(git rev-list --count --merges HEAD ^*)
+    #-
+    - cd ../Microservices/datatransformer
+    - docker build -t 192.168.18.240:5000/cryptax_datatransformer:qa .
+    - docker image tag 192.168.18.240:5000/cryptax_datatransformer:qa 192.168.18.240:5000/cryptax_datatransformer:qa.$(git rev-list --count --merges HEAD ^*)
+    - docker push 192.168.18.240:5000/cryptax_datatransformer:qa
+    - docker push 192.168.18.240:5000/cryptax_datatransformer:qa.$(git rev-list --count --merges HEAD ^*)
+    #- 
+    - cd ../../pipeline/dockerCompose
+    - docker-compose -f cryptotaxview_qa.yml build
+    - docker-compose -f cryptotaxview_qa.yml up -d
+  when: manual
+  environment:
+    name: QA/$CI_COMMIT_REF_SLUG/$CI_COMMIT_SHA
+    url: http://192.168.18.240:7010/
+  only:
+    - /^main*/
+    - main
+    - /^devops*/
+
+# deploy-backend-azureVM:
+#   stage: deploy
+#   tags:
+#     - shell_runner4
+#   script:
+#     - ssh azureuser@20.213.56.61 "bash /home/azureuser/scripts/backend_pipeline3.sh"
+#   when: manual
+#   only:
+#     - main
+#     - /^main*/
+
+# deploy-frontend-azureVM:
+#   stage: deploy
+#   tags:
+#     - shell_runner4
+#   script:
+#     - cd Frontend
+#     - bash "change_role.sh" c90896ac-9d17-4f40-9911-aaf18da4ff84
+#     - bash change_base_url.sh 20.213.56.61:5000
+#     - export CI=false
+#     - npm ci
+#     - npm run build
+#     - ssh azureuser@20.213.56.61 'rm -rf /home/azureuser/cryptotax/frontend/build/*'
+#     - scp -r build azureuser@20.213.56.61:/home/azureuser/cryptotax/frontend/.
+#   artifacts:
+#     paths: 
+#       - Frontend/build
+#   #needs:
+#   #  - deploy-testing-stage 
+#   when: manual
+#   only:
+#     - main # or the name of your main branch
+#     - /^main*/
+
+
+# deploy-to-azureVM:
+#   stage: deploy
+#   tags:
+#     - shell_runner4
+#   script:
+#     - cd Frontend
+#     - bash "change_role.sh" c90896ac-9d17-4f40-9911-aaf18da4ff84
+#     - bash change_base_url.sh 20.213.56.61:5000
+#     - export CI=false
+#     - npm install
+#     - npm run build
+#     #- ssh azureuser@20.213.56.61 'rm -rf /home/azureuser/cryptotax/frontend/build/*'
+#     #- scp -r build azureuser@20.213.56.61:/home/azureuser/cryptotax/frontend/.
+#     - rsync --delete -avzc build azureuser@20.213.56.61:/home/azureuser/cryptotax/frontend/.
+#     #- Deploying backend
+#     - ssh azureuser@20.213.56.61 "bash /home/azureuser/scripts/backend_pipeline3.sh"
+#     #- ssh azureuser@20.213.56.61 "bash /home/azureuser/scripts/backend_pipeline4.sh"
+#     - ssh azureuser@20.213.56.61 "
+#           cd /home/azureuser/cryptotaxview/Microservices/datatransformer;
+#           source /home/azureuser/cryptotaxview/Microservices/datatransformer/virtual_env/bin/activate;
+#           pip3 install -r requirements.txt;
+#           pm2 restart datatransformer --update-env"
+#   artifacts:
+#     paths: 
+#       - Frontend/build
+#   #needs:
+#   #  - deploy-testing-stage 
+#   when: manual
+#   environment:
+#     name: production/$CI_COMMIT_REF_SLUG/$CI_COMMIT_SHA
+#     url: http://www.cryptotaxview.com:85/
+#   only:
+#     - main # or the name of your main branch
+#     - /^main*/
+
+deploy-all-to-azureVM:
+  stage: deploy
+  tags:
+    - shell_runner4
+  script:
+    - echo "Building and deployment started"
+  when: manual
+  only:
+    - main # or the name of your main branch
+    - /^main*/
+    - /^devops*/
+
+deploy-frontend-to-azureVM:
+  stage: deploy
+  tags:
+    - shell_runner4
+  script:
+    - cd Frontend
+    - bash "change_role.sh" c90896ac-9d17-4f40-9911-aaf18da4ff84
+    - bash change_base_url.sh 20.213.56.61:5000
+    - export CI=false
+    - npm ci
+    - npm run build
+    - rsync --delete -azc build azureuser@20.213.56.61:/home/azureuser/cryptotax/frontend/.
+  needs:
+    - job: deploy-all-to-azureVM
+  artifacts:
+    paths:
+      - Frontend/build
+  #needs:
+  #  - deploy-testing-stage 
+  #when: manual
+  environment:
+    name: production/drontend/$CI_COMMIT_REF_SLUG/$CI_COMMIT_SHA
+    url: http://www.cryptotaxview.com:85/
+  only:
+    - main # or the name of your main branch
+    - /^main*/
+    - /^devops*/
+
+deploy-backend-to-azureVM:
+  stage: deploy
+  tags:
+    - shell_runner4
+  script:
+    #- Deploying backend
+    - cd Backend
+    - npm ci
+    - npm run build
+    - rsync -azc dist node_modules azureuser@20.213.56.61:/home/azureuser/cryptotaxview/Backend
+    - ssh azureuser@20.213.56.61 "cd /home/azureuser/cryptotaxview/Backend; pm2 restart backend-5000 --update-env"
+  #needs:
+  #  - deploy-testing-stage 
+  #when: manual
+  environment:
+    name: production/backend/$CI_COMMIT_REF_SLUG/$CI_COMMIT_SHA
+    url: http://www.cryptotaxview.com:85/
+  needs:
+    - job: deploy-all-to-azureVM
+  only:
+    - main # or the name of your main branch
+    - /^main*/
+    - /^devops*/
+
+deploy-transformer-to-azureVM:
+  stage: deploy
+  tags:
+    - shell_runner4
+  script:
+    - ssh azureuser@20.213.56.61 "
+          cd /home/azureuser/cryptotaxview/Microservices/datatransformer;
+          source /home/azureuser/cryptotaxview/Microservices/datatransformer/virtual_env/bin/activate;
+          pip3 install -r requirements.txt;
+          pm2 restart datatransformer --update-env"
+  #needs:
+  #  - deploy-testing-stage 
+  #when: manual
+  environment:
+    name: production/transformer/$CI_COMMIT_REF_SLUG/$CI_COMMIT_SHA
+    url: http://www.cryptotaxview.com:85/
+  needs:
+    - job: deploy-all-to-azureVM
+  only:
+    - main # or the name of your main branch
+    - /^main*/
+    - /^datatransformer*/
+    - /^devops*/
+
+
+deploy-dev:
+  stage: deploy
+  tags:
+    - shell_runner4
+  script:
+    - cd pipeline/dockerCompose
+    - docker-compose -f cryptotaxview_dev.yml build
+    - docker-compose -f cryptotaxview_dev.yml up -d
+  environment:
+    name: dev/$CI_COMMIT_REF_SLUG/$CI_COMMIT_SHA
+    url: http://192.168.18.240:7001/
+  only:
+    - /^frontend*/
+    - /^backend*/
+    - /^testcases*/
+
+# Test-production-frontend:
+#   stage: Automated-test-cases
+#   image: cypress/browsers
+#   tags:
+#     - docker_executor4
+#   script:
+#     - cd Testcases
+#     - export CYPRESS_web_address=http://www.cryptotaxview.com:85
+#     - npm ci 
+#     - npx cypress run --browser chrome
+#   artifacts:
+#     when: always
+#     paths:
+#       - Testcases/cypress/videos/**/*.mp4
+#       - Testcases/cypress/screenshots/**/*.png
+#     expire_in: 1 day
+#   needs: 
+#     - job: deploy-frontend-azureVM
+#   only:
+#     - /^main*/
+#     - main
+
+# Test-production-backend:
+#   stage: Automated-test-cases
+#   image: cypress/browsers
+#   tags:
+#     - docker_executor4
+#   script:
+#     - cd Testcases
+#     - export CYPRESS_web_address=http://www.cryptotaxview.com:85
+#     - npm ci 
+#     - npx cypress run --browser chrome
+#   artifacts:
+#     when: always
+#     paths:
+#       - Testcases/cypress/videos/**/*.mp4
+#       - Testcases/cypress/screenshots/**/*.png
+#     expire_in: 29 day
+#   needs: 
+#     - job: deploy-backend-azureVM
+#   only:
+#     - /^main*/
+#     - main
+
+
+Test-production:
+  stage: Automated-test-cases
+  image: cypress/browsers
+  tags:
+    - docker_executor4
+  script:
+    - cd Testcases
+    - export CYPRESS_web_address=http://www.cryptotaxview.com:85
+    - npm install 
+    - npx cypress run --browser chrome
+  artifacts:
+    when: always
+    paths:
+      - Testcases/cypress/videos/**/*.mp4
+      - Testcases/cypress/screenshots/**/*.png
+    expire_in: 29 day
+  needs: 
+    - job: deploy-all-to-azureVM
+  only:
+    - /^main*/
+    - main
+
+
+Test-QA:
+  stage: Automated-test-cases
+  image: cypress/browsers
+  tags:
+    - docker_executor4
+  script:
+    - cd Testcases
+    - export CYPRESS_web_address=http://192.168.18.240:7010
+    - npm install 
+    - npx cypress run --browser chrome
+  artifacts:
+    when: always
+    paths:
+      - Testcases/cypress/videos/**/*.mp4
+      - Testcases/cypress/screenshots/**/*.png
+    expire_in: 1 day
+  needs:
+    - job: deploy-QA
+  only:
+    - /^main*/
+    - main
+
+Test-Dev:
+  stage: Automated-test-cases
+  image: cypress/browsers
+  tags:
+    - docker_executor4
+  script:
+    - cd Testcases
+    - export CYPRESS_web_address=http://192.168.18.240:7001
+    - npm install 
+    - npx cypress run --browser chrome
+  artifacts:
+    when: always
+    paths:
+      - Testcases/cypress/videos/**/*.mp4
+      - Testcases/cypress/screenshots/**/*.png
+    expire_in: 1 day
+  needs:
+    - job: deploy-dev
+  only:
+    - /^frontend*/
+    - /^backend*/
+    - /^testcases*/

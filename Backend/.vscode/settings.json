@@ -1,0 +1,23 @@
+{
+  "cSpell.words": [
+    "actionid",
+    "audtotal",
+    "CCXT",
+    "datetime",
+    "firstname",
+    "lastlogin",
+    "lastname",
+    "officedocument",
+    "permissionid",
+    "roleid",
+    "Rolepermission",
+    "Rolepermissions",
+    "sendreceive",
+    "shortcode",
+    "solddate",
+    "spreadsheetml",
+    "Swyftx",
+    "typeorm",
+    "uuidv"
+  ]
+}

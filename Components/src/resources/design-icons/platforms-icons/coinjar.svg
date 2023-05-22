@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_3153" data-name="Rectangle 3153" width="24" height="24" transform="translate(-3163 -1633)" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <g id="coinjar" transform="translate(3163 1633)" clip-path="url(#clip-path)">
+    <g id="coinjar-wallet-seeklogo.com" transform="translate(-3161.957 -1628.826)">
+      <path id="Path_10099" data-name="Path 10099" d="M12.6,40.7a8.217,8.217,0,0,0,7.052,4.086A8.08,8.08,0,0,0,26.7,40.7Z" transform="translate(-8.817 -28.472)" fill="#f69325"/>
+      <path id="Path_10100" data-name="Path 10100" d="M21.832,34.424,20.47,31.7H18.987a8.615,8.615,0,0,1-.969,2.724ZM1.462,31.7.1,34.424H3.914A7.508,7.508,0,0,1,2.945,31.7Z" transform="translate(-0.1 -22.196)" opacity="0.2"/>
+      <path id="Path_10101" data-name="Path 10101" d="M17.172.3A8.151,8.151,0,0,0,9,8.442,6.908,6.908,0,0,0,9.121,9.8a8.614,8.614,0,0,0,.969,2.724H24.225A7.508,7.508,0,0,0,25.193,9.8a10.348,10.348,0,0,0,.121-1.362A8.145,8.145,0,0,0,17.172.3Z" transform="translate(-6.306 -0.3)" fill="#faa526"/>
+    </g>
+  </g>
+</svg>

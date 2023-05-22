@@ -1,0 +1,56 @@
+version: "3"
+services:
+  redisdb:
+    restart: unless-stopped
+    image: redis:7.0.0
+    container_name: dev_cryptax_redis_dev
+    # ports: 
+    #   - "7003:6379"
+    command: redis-server --save 60 1 --loglevel warning --maxmemory 100M
+    volumes: 
+      - /home/techgenix/dockerVolume/cryptaxview/dev/redis/data:/data
+
+  backend:
+    restart: unless-stopped
+    image: 192.168.18.240:5000/cryptax_backend:testing
+    depends_on:
+      - postgres
+    container_name: cryptax_backend_dev
+    environment:
+      - NODE_ENV=production
+      - PORT=7000
+      - type=postgres
+      - host=postgres
+      - dbport=5432
+      - user=techgenix
+      - password=tech123
+      - database=postgres
+      - redisHost=redisdb
+      - redisPort=6379
+    ports:
+      - "7000:7000"
+  frontend:
+    image: 192.168.18.240:5000/cryptax_frontend:testing
+    container_name: cryptax_frontend_dev
+    restart: unless-stopped
+    ports:
+      - "7001:80"
+    depends_on:
+      - backend
+  postgres:
+    image: postgres
+    ports:
+      - "7005:5432"
+    environment:
+      POSTGRES_USER: techgenix
+      POSTGRES_PASSWORD: tech123
+    volumes:
+      - /home/techgenix/dockerVolume/cryptaxview/dev/postgresql:/var/lib/postgresql
+      - /home/techgenix/dockerVolume/cryptaxview/dev/postgresql_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    container_name: cryptaxview_postgresql_dev
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 7002:8080

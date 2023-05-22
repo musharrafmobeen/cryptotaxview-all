@@ -1,0 +1,14 @@
+{
+  "url": {
+    "baseURL": "http://192.168.18.15:5000"
+  },
+  "role": "0999c05d-ea89-4a13-a189-015903d22f38",
+  "roleMain": "c90896ac-9d17-4f40-9911-aaf18da4ff84",
+  "roleQA": "4264f3bc-f445-46a8-9c93-ecd6e5d7815c",
+  "roleDev": "0999c05d-ea89-4a13-a189-015903d22f38",
+  "roleShortCode": "PU",
+  "roleShortCodeClientUser": "CU",
+  "clientID": "96242048044-r66g5c2nt9c1vvmg2gu6av4kvhj1n0i1.apps.googleusercontent.com",
+  "stripeKey": "pk_test_51LPhPXLJOkHX7G0vrQcz32ZBNUVgidx7BjsPFOQMKqGhqx8FPIAOUPzwcI4sJupxjl5nNwnPAEutDVDCeLvtZH9E00G1Ak6dLy",
+  "cloud-hosted-ctv-logo-url": "https://i.ibb.co/3ztkd84/ctv-logo.png"
+}

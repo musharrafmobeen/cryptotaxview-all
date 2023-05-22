@@ -1,0 +1,22 @@
+{
+  "name": "testcases",
+  "version": "1.0.0",
+  "description": "This runs the testcases for the Cryptotaxview repository",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/techgenix/cryptotaxview.git"
+  },
+  "author": "Waqas Shah",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/techgenix/cryptotaxview/issues"
+  },
+  "homepage": "https://gitlab.com/techgenix/cryptotaxview#readme",
+  "devDependencies": {
+    "cypress": "^9.5.3"
+  }
+}

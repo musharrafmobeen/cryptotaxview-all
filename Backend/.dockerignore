@@ -1,0 +1,10 @@
+/node_modules
+/.pnp
+.pnp.js
+.git
+.gitignore
+.dockerignore
+Dockerfile
+node_modules
+build
+dist

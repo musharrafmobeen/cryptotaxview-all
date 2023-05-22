@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_3152" data-name="Rectangle 3152" width="24" height="24" transform="translate(-3200 -1633)" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <g id="binance" transform="translate(3200 1633)" clip-path="url(#clip-path)">
+    <g id="binance-coin-seeklogo.com" transform="translate(-3198.918 -1631.957)">
+      <path id="Path_10097" data-name="Path 10097" d="M6.683,9.175l4.24-4.24,4.243,4.242L17.633,6.71,10.923,0,4.216,6.708,6.683,9.175M.006,10.917,2.473,8.45l2.467,2.467L2.473,13.385ZM6.683,12.66l4.24,4.24,4.242-4.242,2.469,2.466h0l-6.71,6.71L4.216,15.127l0,0L6.683,12.66m10.223-1.741,2.467-2.467,2.467,2.467-2.467,2.467Z" transform="translate(-0.006)" fill="#f3ba2f"/>
+      <path id="Path_10098" data-name="Path 10098" d="M775.558,773.054h0l-2.5-2.5-1.85,1.85h0l-.213.213-.438.439,0,0,0,0,2.5,2.5,2.5-2.5h0" transform="translate(-762.138 -762.137)" fill="#f3ba2f"/>
+    </g>
+  </g>
+</svg>

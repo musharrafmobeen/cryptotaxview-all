@@ -1,0 +1,18 @@
+input[type="file"]::file-selector-button {
+  margin: 1%;
+  white-space: nowrap;
+  text-align: center;
+  padding: 10px;
+}
+input[type="file"]::file-selector-button:hover {
+  background-color: #2b406a;
+  color: white;
+}
+/*   margin: "1%",
+    backgroundColor: "white",
+    "&:hover": {
+      backgroundColor: appThemeMainColor,
+      color: "white",
+    },
+    whiteSpace: "nowrap",
+    textAlign: "center", */

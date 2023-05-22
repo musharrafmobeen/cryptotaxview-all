@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="6734.25" height="1285.25" viewBox="0 0 26937 5141">
+<defs>
+    <style>
+      .cls-1 {
+        fill: #d7e0e7;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        fill-rule: evenodd;
+      }
+
+      .cls-2, .cls-5 {
+        fill: #134675;
+      }
+
+      .cls-3, .cls-6 {
+        fill: #0074cb;
+      }
+
+      .cls-4 {
+        fill: #13ccf0;
+      }
+
+      .cls-5 {
+        font-size: 602.712px;
+        font-family: Probeta-SemiBold, Probeta;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+    </style>
+  </defs>
+  <path id="Polygon_1" data-name="Polygon 1" class="cls-1" d="M2435.42,1065.71L1973.85,799.223V266.25L2435.42-.237,2896.98,266.25V799.223Z"/>
+  <path class="cls-2" d="M-0.23,1357.24L2386.08,2739.28l3.46,680.65L592.892,2393.77v1022.7L2379.17,4453v687.56L-0.23,3751.62V1357.24Z"/>
+  <path class="cls-3" d="M4863.38,1365.3L2481.68,2742.73v672.59l889.1-511.35V4626.91l603.49-373.15V2544.64l884.51-502.14Z"/>
+  <path class="cls-4" d="M349.884,1236.31L944.16,890.8l1492.6,863.767L3915.54,897.713l601.18,324.777L2436.76,2424.86Z"/>
+  <text id="CryptOtaxview" class="cls-5" transform="translate(5384.814 4010.535) scale(6.514)">CryptO<tspan class="cls-6">taxview</tspan></text>
+</svg>

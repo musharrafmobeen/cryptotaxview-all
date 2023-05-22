@@ -1,0 +1,94 @@
+version: "3"
+services:
+  redisdb:
+    restart: unless-stopped
+    image: redis:7.0.0
+    container_name: qa_cryptax_redis_qa
+    ports: 
+      - "7014:6379"
+    command: redis-server --save 60 1 --loglevel warning --maxmemory 100M
+    volumes: 
+      - /home/techgenix/dockerVolume/cryptaxview/qa/redis/data:/data
+
+  
+  backend:
+    restart: unless-stopped
+    image: 192.168.18.240:5000/cryptax_backend:qa
+    depends_on:
+      - postgres
+      - redisdb
+    container_name: qa_cryptax_backend_qa
+    environment:
+      - NODE_ENV=production
+      - PORT=7011
+      - type=postgres
+<<<<<<< HEAD
+      #- host=postgres
+      #- dbport=5432
+      - host=localhost
+      - dbport=7013
+=======
+      - host=postgres
+      - dbport=5432
+      - redisHost=redisdb
+      - redisPort=6379
+>>>>>>> main_temporary
+      - user=techgenix
+      - password=tech123
+      - database=postgres
+      - OPENSSL_CONF=/etc/ssl/openssl.cnf
+      - UV_THREADPOOL_SIZE=4
+      - PYTHON_BACKEND_PORT=7015
+      - PYTHON_BACKEND_IP=datatransformer
+      - NODEMAILER_EMAIL=musharrafmobeen16@gmail.com 
+      - NODEMAILER_PASSWORD=kunlxaajqdvfldqw
+      - EMAIL_VERIFICATION_LINK=http://192.168.18.240:7010/signup/referral/
+      - STRIPE_SECRET_KEY=sk_test_51LPhPXLJOkHX7G0vuDFuRPuwXyQjiGOZ41PhHZUWdrtvlDHBbyfUE68ODTdEKKgJ7MUJadRvbnY4HVDQvkaVBley005oLQFStq
+    ports:
+      - "7011:7011"
+
+  datatransformer: 
+    image: 192.168.18.240:5000/cryptax_datatransformer:qa
+    container_name: cryptax_datatransformer_qa
+    restart: unless-stopped
+    environment:
+      - DB_USERNAME=techgenix
+      - DB_PASSWORD=tech123
+      - DB_HOST=postgres
+      - DB_NAME=postgres
+      - PYTHON_BACKEND_PORT=7015
+    ports: 
+      - "7015:7015"
+  
+  
+  frontend:
+    image: 192.168.18.240:5000/cryptax_frontend:qa
+    container_name: qa_cryptax_frontend_qa
+    restart: unless-stopped
+    ports:
+      - "7010:80"
+    depends_on:
+      - backend
+  
+  postgres:
+    image: postgres
+    ports:
+      - "7013:5432"
+    environment:
+      POSTGRES_USER: techgenix
+      POSTGRES_PASSWORD: tech123
+    volumes:
+      - /home/techgenix/dockerVolume/cryptaxview/qa/postgresql:/var/lib/postgresql
+      - /home/techgenix/dockerVolume/cryptaxview/qa/postgresql_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    container_name: cryptaxview_postgresql_qa
+<<<<<<< HEAD
+
+=======
+  
+>>>>>>> main_temporary
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 7012:8080

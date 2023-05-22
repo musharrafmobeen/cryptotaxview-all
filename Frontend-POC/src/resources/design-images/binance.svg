@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="250.153" height="250.153" viewBox="0 0 250.153 250.153">
+  <g id="bnb-6219388" transform="translate(-91.424 -91.424)">
+    <g id="Logo" transform="translate(91.424 91.424)">
+      <circle id="Ellipse" cx="125.076" cy="125.076" r="125.076" fill="#f3ba2c"/>
+      <g id="Group_2" data-name="Group 2" transform="translate(37.774 37.775)">
+        <g id="Triangles_1_" transform="translate(33.637)">
+          <path id="Path_2" data-name="Path 2" d="M1987.632,2680.419l-.017.009-53.649,53.657-53.64-53.64-.026-.026,19.753-19.7h0l33.913,33.9,33.921-33.921Z" transform="translate(-1880.3 -2559.482)" fill="#fff"/>
+          <path id="Path_3" data-name="Path 3" d="M1987.889,1545.557l-19.728,19.728-33.921-33.921-33.913,33.9L1880.6,1545.54l53.64-53.64Z" transform="translate(-1880.574 -1491.9)" fill="#fff"/>
+        </g>
+        <g id="Rectangles_1_" transform="translate(0 67.271)">
+          <rect id="Rectangle_1" data-name="Rectangle 1" width="27.903" height="27.903" transform="translate(135.144 20.043) rotate(-45)" fill="#fff"/>
+          <rect id="Rectangle_2" data-name="Rectangle 2" width="27.903" height="27.903" transform="translate(0 20.032) rotate(-45)" fill="#fff"/>
+          <path id="Path_4" data-name="Path 4" d="M2308.835,2288.722h.009l-20.022-20.022-14.791,14.791h0l-1.7,1.7-3.507,3.507-.026.026.026.026,20,20,20.022-20.022.009-.009h-.026" transform="translate(-2201.519 -2268.7)" fill="#fff"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

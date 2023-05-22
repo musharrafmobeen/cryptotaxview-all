@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Trades!</title>
+  </head>
+  <body>
+    <h1>Transactions List</h1>
+    <ul>
+      <li>Amount</li>
+      <li>Cost</li>
+      <li>Datetime</li>
+      <li>Fee</li>
+      <li>Side</li>
+      <li>Symbol</li>
+      <li>Price</li>
+      <li>Timestamp</li>
+      <li>CGT</li>
+    </ul>
+    <br />
+    <ul>
+      {{#each trade}}
+      <li>{{this.amount}}</li>
+      <li>{{this.cost}}</li>
+      <li>{{this.datetime}}</li>
+      <li>{{this.fee.cost}}</li>
+      <li>{{this.side}}</li>
+      <li>{{this.symbol}}</li>
+      <li>{{this.price}}</li>
+      <li>{{this.timestamp}}</li>
+      <li>{{this.CGT}}</li>
+      <br />
+      {{/each}}
+    </ul>
+  </body>
+</html>

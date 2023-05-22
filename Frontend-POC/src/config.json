@@ -1,0 +1,11 @@
+{
+  "url": {
+    "baseURL" : "http://20.213.56.61:5000",
+    "coinBaseUrl": "/coinbase",
+    "binanceUrl": "/binance",
+    "binanceGetUrl": "/exchanges/binance-trades",
+    "allUrl": "/all",
+    "getTransfers": "/transfers",
+    "getWallets": "/wallet"
+  }
+}
